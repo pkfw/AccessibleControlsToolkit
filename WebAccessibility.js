@@ -75,7 +75,7 @@ function getIndex(row, col, perRow) {
 function focusCell(index, elements) {
     const cell = elements[index];
 
-    if (!cell || cell.tabIndex === -1) return;
+    if (cell?.getAttribute("tabindex") === "-1") return;
 
     cell.focus();
     cell.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest"});
