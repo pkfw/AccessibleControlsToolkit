@@ -31,19 +31,24 @@ function keyDownArrow(event, row, col, dataSize, perRow) {
         return { row, col };
     }
 
+    const maxRow = Math.ceil(dataSize / perRow) - 1;
+
     switch (event.code) {
         case "ArrowUp":
-        row = Math.max(0, row - 1);
-        break;
+            row = Math.max(0, row - 1);
+            break;
         case "ArrowDown":
-        row = Math.min(dataSize - 1, row + 1);
-        break;
+            row = Math.min(maxRow, row + 1);
+            break;
         case "ArrowLeft":
-        col = Math.max(0, col - 1);
-        break;
+            col = Math.max(0, col - 1);
+            break;
         case "ArrowRight":
-        col = Math.min(perRow - 1, col + 1);
-        break;
+            const isLastRow = row === maxRow;
+            const lastRowSize = dataSize % perRow || perRow;
+            const maxCol = isLastRow ? lastRowSize - 1 : perRow - 1;
+            col = Math.min(maxCol, col + 1);
+            break;
     }
 
     return { row, col };
