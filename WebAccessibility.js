@@ -1,5 +1,5 @@
 /**
- * 사용 필요시
+ * vue 에서 사용 필요시
  * 1. import    : import WebAccessibility from "@/js/WebAccessibility.js";
  * 2. data 선언 : wa: null,
  * 3. mounted() : this.wa = new WebAccessibility();
@@ -79,4 +79,17 @@ function focusCell(index, elements) {
 
     cell.focus();
     cell.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest"});
+}
+
+/**
+ * 지정된 인덱스의 요소에 'focus' 클래스를 추가하고, 나머지 요소에서는 'focus' 클래스를 제거합니다.
+ * 이 함수는 주로 UI 요소의 포커스 상태를 시각적으로 나타내기 위해 사용됩니다.
+ * 
+ * @param {number} index - 포커스를 받을 요소의 인덱스.
+ * @param {Element[]} elements - 포커스 클래스를 추가할 요소들의 배열.
+ */
+function addFocusClass(index, elements) {
+    elements.forEach((element, idx) => {
+        element.classList.toggle('focus', idx === index);
+    });
 }
