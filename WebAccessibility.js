@@ -9,12 +9,39 @@
 export default class WebAccessibility {
     table() {
         return {
+            convertTo2DArray: convertTo2DArray,
             keyDownArrow: keyDownArrow,
             getIndex: getIndex,
             focusCell: focusCell,
+            addFocusClass: addFocusClass,
         }
     }
 }
+
+/**
+ * 주어진 아이템들을 기반으로 2차원 테이블 구조를 생성합니다.
+ * 필요한 경우 빈 셀 데이터를 추가하여 지정된 행과 열의 요구 사항을 충족시킵니다.
+ * 
+ * @param {Object[]} items - 테이블에 표시할 아이템들의 배열.
+ * @param {number} perRow - 각 행에 표시할 아이템의 수.
+ * @param {number} requiredRows - 생성할 최소 행의 수.
+ * @param {Object} blankCellData - 빈 셀에 사용될 기본 데이터 객체.
+ * @param {number} startIndex - 빈 셀 데이터에 사용될 시작 인덱스.
+ * @param {string} indexProperty - 인덱스가 추가될 속성의 이름.
+ * @returns {Object[][]} 주어진 아이템들을 포함하는 2차원 배열. 각 행은 `perRow`만큼의 아이템을 포함하며,
+ *                       필요한 경우 `blankCellData`로 채워진 빈 셀을 포함합니다.
+ */
+function convertTo2DArray(items, perRow, requiredRows, blankCellData, indexProperty, startIndex) {
+    const table = [...items];
+    let currentIndex = startIndex;
+  
+    while (table.length < perRow * requiredRows) {
+        const newBlankCell = { ...blankCellData, [indexProperty]: currentIndex++ };
+        table.push(newBlankCell);
+    }
+  
+    return table.reduce((rows, key, index) => (index % perRow === 0 ? rows.push([key]) : rows[rows.length - 1].push(key)) && rows, []);
+}  
   
 /**
  * 키보드 화살표 키에 따라 테이블의 새로운 행(row)과 열(col) 포커스 인덱스를 계산.
